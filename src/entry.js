@@ -1,7 +1,6 @@
 import './styles/styles.css';
 
 import {Model} from './model';
-import {View} from './view';
 import {Controller} from './controller';
 
 const apiId = 6668882;
@@ -17,6 +16,10 @@ Model.login(apiId, permission)
                 btnSave.addEventListener('click', Controller.saveFriends);
 
                 document.addEventListener('click', Controller.selectFriend);
+
+                document.addEventListener('keyup', Controller.filterFriends);
+
+                Controller.makeDragAndDrop();
             })
     })
     .catch((err) => {

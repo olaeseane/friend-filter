@@ -56,10 +56,4 @@ export const Model = {
         return this.friends.filter(item => item.selected === params.selected);
     },
 
-/*
-    getUser: function (params = {}) {
-        return this.callApi('users.get', params);
-    },
-*/
-
 };
