@@ -1,0 +1,11 @@
+{{#each items}}
+        {{#if filtered}} <div draggable="true"> {{else}} <div hidden draggable="true"> {{/if}}
+            <li class="friend" id="{{@index}}">
+                <div class="img-wrapper">
+                    <img src="{{photo_100}}" alt=""/>
+                </div>
+                <div class="name">{{first_name}} {{last_name}}</div>
+                <i class="fa {{#if selected}}fa-times{{else}}fa-plus{{/if}}"></i>
+            </li>
+        </div>
+{{/each}}

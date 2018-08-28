@@ -1,7 +1,8 @@
 export const Model = {
+    friends: [],
+
     login: function (apiId, perms) {
         return new Promise((resolve, rejected) => {
-            debugger;
             VK.init({
                 apiId
             });
@@ -10,7 +11,7 @@ export const Model = {
                 if (r.session) {
                     resolve(r);
                 } else {
-                    rejected(new Error('VK auth error'));
+                    rejected(new Error('VK.init error'));
                 }
             }, perms)
         })
@@ -22,7 +23,7 @@ export const Model = {
         return new Promise((resolve, rejected) => {
             VK.Api.call(method, params, (r) => {
                 if (r.error) {
-                    rejected(new Error('VK call method error'))
+                    rejected(new Error(`VK.Api.call ${method} error`))
                 } else {
                     resolve(r.response)
                 }
@@ -30,11 +31,35 @@ export const Model = {
         })
     },
 
-    getUser: function (params = {}) {
-        return callApi('users.get', params);
+    loadFriends: function (params = {}) {
+        return new Promise((resolve, rejected) => {
+            this.callApi('friends.get', params)
+                .then(response => {
+                    response.items.forEach((item, i) => {
+                        if (localStorage.selectedFriends && localStorage.selectedFriends.indexOf(item.id) !== -1)
+                            item.selected = true;
+                        else
+                            item.selected = false;
+                        item.index = i;
+                        item.filtered = true;
+                        this.friends.push(item);
+                    });
+                    resolve();
+                })
+                .catch(err => {
+                    rejected(err);
+                })
+        })
     },
 
-    getFriends: function (params = {}) {
-        return callApi('friends.get', params);
+    getFriends: function (selected) {
+        return this.friends.filter(item => item.selected === selected);
     },
+
+/*
+    getUser: function (params = {}) {
+        return this.callApi('users.get', params);
+    },
+*/
+
 };
