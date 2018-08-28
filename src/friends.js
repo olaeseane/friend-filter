@@ -66,7 +66,12 @@ function getFriends() {
                         item.selected = true;
                     storeFriends.push(new Friend(item, i));
                 });
+                for (let i = 0; i < 5; i++) {
+                    storeFriends = [...storeFriends, ...storeFriends];
+                }
+                console.log(storeFriends);
                 resolve();
+
             })
             .catch(() => new Error('VK friends.get error'))
     })

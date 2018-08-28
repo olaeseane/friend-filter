@@ -24,16 +24,16 @@ module.exports = {
         filename: '[name].[hash].js',
         path: path.resolve('dist')
     },
-    devtool: 'source-map',
+    // devtool: 'source-map',
     module: { rules },
     plugins: [
-        // new webpack.optimize.UglifyJsPlugin({
-        //     sourceMap: true,
-        //     compress: {
-        //         drop_debugger: false,
-        //         warnings: false
-        //     }
-        // }),
+        new webpack.optimize.UglifyJsPlugin({
+            sourceMap: true,
+            compress: {
+                drop_debugger: false,
+                warnings: false
+            }
+        }),
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
             title: 'Friends filter',
