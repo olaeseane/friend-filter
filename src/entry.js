@@ -2,6 +2,7 @@ import './styles/styles.css';
 
 import {Model} from './model';
 import {View} from './view';
+import {Router} from './router';
 
 const apiId = 6668882;
 const permission = 2;
@@ -19,7 +20,9 @@ Model.login(apiId, permission)
                 listSelectedFriends.innerHTML = View.renderFriends({
                     items: Model.getFriends(true)
                 });
-                console.log(Model.getFriends());
+
+                const btnSave = document.querySelector('.btn.save');
+                btnSave.addEventListener('click', Router.handle('saveFriends'));
             })
     })
     .catch((err) => {
