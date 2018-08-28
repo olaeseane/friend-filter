@@ -15,7 +15,7 @@ rules.push({
 
 module.exports = {
     entry: {
-        friends: './src/friends.js'
+        friends: './src/entry.js'
     },
     // devServer: {
     //     index: 'friends.hbs'
@@ -27,6 +27,7 @@ module.exports = {
     // devtool: 'source-map',
     module: { rules },
     plugins: [
+/*
         new webpack.optimize.UglifyJsPlugin({
             sourceMap: true,
             compress: {
@@ -34,6 +35,7 @@ module.exports = {
                 warnings: false
             }
         }),
+*/
         new ExtractTextPlugin('styles.css'),
         new HtmlPlugin({
             title: 'Friends filter',
