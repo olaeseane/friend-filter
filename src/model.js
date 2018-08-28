@@ -52,8 +52,8 @@ export const Model = {
         })
     },
 
-    getFriends: function (selected) {
-        return this.friends.filter(item => item.selected === selected);
+    getFriends: function (params) {
+        return this.friends.filter(item => item.selected === params.selected);
     },
 
 /*
