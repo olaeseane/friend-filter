@@ -5,6 +5,9 @@ export const Controller = {
     listFriends: document.querySelector('#list-friends'),
     listSelectedFriends: document.querySelector('#list-selected-friends'),
 
+    currentFilter: '',
+    currentSelectedFilter: '',
+
     saveFriends: function () {
         localStorage.selectedFriends = JSON.stringify(Model.getFriends({selected: true}));
         alert('Список друзей в фильтре сохранен');
@@ -20,21 +23,23 @@ export const Controller = {
     },
 
     selectFriend: function (event) {
-        if (event.target.classList.contains('fa-plus'))
-            Model.friends[event.target.parentNode.id].selected = true;
-        if (event.target.classList.contains('fa-times'))
-            Model.friends[event.target.parentNode.id].selected = false;
+        if (event.target.classList.contains('fa-plus')) {
+            const item = Model.friends[event.target.parentNode.id];
+            item.selected = true;
+            item.filtered = isMatching(item.first_name + ' ' + item.last_name, this.currentSelectedFilter);
+        }
+        if (event.target.classList.contains('fa-times')) {
+            const item = Model.friends[event.target.parentNode.id];
+            item.selected = false;
+            item.filtered = isMatching(item.first_name + ' ' + item.last_name, this.currentFilter);
+
+        }
         Controller.showFriend();
     },
 
     filterFriends: function (event) {
-        const isMatching = (full, chunk) => {
-            let regex = new RegExp(chunk, 'i');
-
-            return regex.test(full);
-        };
-
         if (event.target.name === 'filter-friends') {
+            this.currentFilter = event.target.value;
             Model.friends.forEach((item) => {
                 if (!item.selected) {
                     item.filtered = isMatching(item.first_name + ' ' + item.last_name, event.target.value);
@@ -42,6 +47,7 @@ export const Controller = {
             })
         }
         if (event.target.name === 'filter-selected-friends') {
+            this.currentSelectedFilter = event.target.value;
             Model.friends.forEach((item) => {
                 if (item.selected) {
                     item.filtered = isMatching(item.first_name + ' ' + item.last_name, event.target.value);
@@ -78,4 +84,10 @@ export const Controller = {
             });
         })
     }
+};
+
+const isMatching = (full, chunk) => {
+    let regex = new RegExp(chunk, 'i');
+
+    return regex.test(full);
 };
